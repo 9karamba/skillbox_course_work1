@@ -72,63 +72,63 @@
       <section class="shop__list">
         <article class="shop__item product" tabindex="0">
           <div class="product__image">
-            <img src="img/products/product-1.jpg" alt="product-name">
+            <img src="/templates/img/products/product-1.jpg" alt="product-name">
           </div>
           <p class="product__name">Платье со складками</p>
           <span class="product__price">2 999 руб.</span>
         </article>
         <article class="shop__item product" tabindex="0">
           <div class="product__image">
-            <img src="img/products/product-2.jpg" alt="product-name">
+            <img src="/templates/img/products/product-2.jpg" alt="product-name">
           </div>
           <p class="product__name">Платье со складками</p>
           <span class="product__price">2 999 руб.</span>
         </article>
         <article class="shop__item product" tabindex="0">
           <div class="product__image">
-            <img src="img/products/product-3.jpg" alt="product-name">
+            <img src="/templates/img/products/product-3.jpg" alt="product-name">
           </div>
           <p class="product__name">Платье со складками</p>
           <span class="product__price">2 999 руб.</span>
         </article>
         <article class="shop__item product" tabindex="0">
           <div class="product__image">
-            <img src="img/products/product-4.jpg" alt="product-name">
+            <img src="/templates/img/products/product-4.jpg" alt="product-name">
           </div>
           <p class="product__name">Платье со складками</p>
           <span class="product__price">2 999 руб.</span>
         </article>
         <article class="shop__item product" tabindex="0">
           <div class="product__image">
-            <img src="img/products/product-5.jpg" alt="product-name">
+            <img src="/templates/img/products/product-5.jpg" alt="product-name">
           </div>
           <p class="product__name">Платье со складками</p>
           <span class="product__price">2 999 руб.</span>
         </article>
         <article class="shop__item product" tabindex="0">
           <div class="product__image">
-            <img src="img/products/product-6.jpg" alt="product-name">
+            <img src="/templates/img/products/product-6.jpg" alt="product-name">
           </div>
           <p class="product__name">Платье со складками</p>
           <span class="product__price">2 999 руб.</span>
         </article>
         <article class="shop__item product" tabindex="0">
           <div class="product__image">
-            <img src="img/products/product-7.jpg" alt="product-name">
+            <img src="/templates/img/products/product-7.jpg" alt="product-name">
           </div>
           <p class="product__name">Платье со складками</p>
           <span class="product__price">2 999 руб.</span>
         </article>
         <article class="shop__item product" tabindex="0">
           <div class="product__image">
-            <img src="img/products/product-8.jpg" alt="product-name">
+            <img src="/templates/img/products/product-8.jpg" alt="product-name">
           </div>
           <p class="product__name">Платье со складками</p>
           <span class="product__price">2 999 руб.</span>
         </article>
         <article class="shop__item product" tabindex="0">
           <div class="product__image">
-            <img src="img/products/product-9.jpg" alt="product-name">
+            <img src="/templates/img/products/product-9.jpg" alt="product-name">
           </div>
           <p class="product__name">Платье со складками</p>
           <span class="product__price">2 999 руб.</span>
