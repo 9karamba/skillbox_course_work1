@@ -1,3 +1,14 @@
+<?php
+    include_once $_SERVER['DOCUMENT_ROOT'].'/include/global_func.php';
+    include_once $_SERVER['DOCUMENT_ROOT'].'/include/menu.php';
+
+    $menu = getMenu();
+    $uri = $_SERVER['REQUEST_URI'];
+
+    if( isset( $_GET["action"]) &&  $_GET["action"] == 'out') {
+        logout();
+    }
+?>
 <!DOCTYPE html>
 <html lang="ru">
 <head>
@@ -28,27 +39,14 @@
   </a>
   <nav class="page-header__menu">
     <ul class="main-menu main-menu--header">
-      <li>
-        <a class="main-menu__item" href="/">Главная</a>
-      </li>
-      <li>
-        <a class="main-menu__item" href="#">Новинки</a>
-      </li>
-      <li>
-        <a class="main-menu__item active">Sale</a>
-      </li>
-      <li>
-        <a class="main-menu__item" href="/delivery">Доставка</a>
-      </li>
-      <li>
-        <a class="main-menu__item active" href="products.html">Товары</a>
-      </li>
-      <li>
-        <a class="main-menu__item" href="orders.html">Заказы</a>
-      </li>
-      <li>
-        <a class="main-menu__item" href="#">Выйти</a>
-      </li>
+        <?php
+            foreach ($menu as $item) { ?>
+                <li>
+                    <a class="main-menu__item <?= $item['href'] === $uri ? 'active' : '' ?>" href="<?= $item['href'] ?>">
+                        <?= $item['name'] ?>
+                    </a>
+                </li>
+        <?php } ?>
     </ul>
   </nav>
 </header>
