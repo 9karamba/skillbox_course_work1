@@ -34,7 +34,7 @@
 </head>
 <body>
 <header class="page-header">
-  <a class="page-header__logo" href="#">
+  <a class="page-header__logo" href="/">
     <img src="/templates/img/logo.svg" alt="Fashion">
   </a>
   <nav class="page-header__menu">

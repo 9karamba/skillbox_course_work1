@@ -2,9 +2,9 @@
 
 function connectionDB(){
     $host = 'localhost'; // адрес сервера 
-    $database = 'skillbox'; // имя базы данных
-    $user = 'root'; // имя пользователя
-    $password = ""; // пароль
+    $database = 'site'; // имя базы данных
+    $user = 'mysql'; // имя пользователя
+    $password = "mysql"; // пароль
     
     // подключаемся к серверу
     $link = mysqli_connect($host, $user, $password, $database) 

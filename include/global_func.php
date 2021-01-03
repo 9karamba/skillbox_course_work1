@@ -89,3 +89,11 @@ function getRole()
     }
     return 'user';
 }
+
+function getCategories(){
+    $link = connectionDB();
+    $query ="SELECT * FROM categories";
+
+    $result = getResultDB($link, $query);
+    return mysqli_fetch_all( $result, MYSQLI_ASSOC );
+}

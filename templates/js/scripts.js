@@ -261,12 +261,13 @@ if (addList) {
       addInput.value = '';
       checkList(addList, addButton);
     });
-
+    console.log(evt.target.files);
     const file = evt.target.files[0];
     const reader = new FileReader();
 
     reader.onload = (evt) => {
       img.src = evt.target.result;
+      img.file = file;
       template.appendChild(img);
       addList.appendChild(template);
       checkList(addList, addButton);
@@ -275,18 +276,6 @@ if (addList) {
     reader.readAsDataURL(file);
 
   });
-
-  const button = document.querySelector('.button');
-  const popupEnd = document.querySelector('.page-add__popup-end');
-
-  button.addEventListener('click', (evt) => {
-
-    evt.preventDefault();
-
-    form.hidden = true;
-    popupEnd.hidden = false;
-
-  })
 
 }
 
