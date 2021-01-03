@@ -19,15 +19,17 @@ include dirname(__FILE__) . '/../header.php';
     <span class="page-products__header-field">Новинка</span>
   </div>
   <ul class="page-products__list">
-    <li class="product-item page-products__item">
-      <b class="product-item__name">Туфли черные</b>
-      <span class="product-item__field">235454345</span>
-      <span class="product-item__field">2 500 руб.</span>
-      <span class="product-item__field">Женщины</span>
-      <span class="product-item__field">Да</span>
-      <a href="add.html" class="product-item__edit" aria-label="Редактировать"></a>
-      <button class="product-item__delete"></button>
-    </li>
+      <?php foreach (getProducts() as $product): ?>
+        <li class="product-item page-products__item">
+          <b class="product-item__name"><?= $product["name"] ?></b>
+          <span class="product-item__field"><?= $product["id"] ?></span>
+          <span class="product-item__field"><?= $product["price"] ?> руб.</span>
+          <span class="product-item__field"><?= getProductsCategories($product["id"]) ?></span>
+          <span class="product-item__field"><?= $product["new"] ? 'Да' : 'Нет' ?></span>
+          <a href="add/?product-id=<?= $product["id"] ?>" class="product-item__edit" aria-label="Редактировать"></a>
+          <button class="product-item__delete" data-product="<?= $product["id"] ?>"></button>
+        </li>
+      <?php endforeach; ?>
   </ul>
 </main>
 

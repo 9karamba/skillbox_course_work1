@@ -288,7 +288,20 @@ if (productsList) {
 
     if (target.classList && target.classList.contains('product-item__delete')) {
 
-      productsList.removeChild(target.parentElement);
+      let request = $.ajax({
+        url: "../../include/delete_product.php",
+        method: "POST",
+        data: { id : $(target).data("product") },
+        dataType: "html"
+      });
+
+      request.done(function() {
+        productsList.removeChild(target.parentElement);
+      });
+
+      request.fail(function( jqXHR, textStatus ) {
+        console.log( "Request failed: " + textStatus );
+      });
 
     }
 

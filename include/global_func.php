@@ -97,3 +97,29 @@ function getCategories(){
     $result = getResultDB($link, $query);
     return mysqli_fetch_all( $result, MYSQLI_ASSOC );
 }
+
+function getProducts(){
+    $link = connectionDB();
+    $query ="SELECT * FROM products";
+
+    $result = getResultDB($link, $query);
+    return mysqli_fetch_all( $result, MYSQLI_ASSOC );
+}
+
+function getProductsCategories($id){
+    $link = connectionDB();
+    $query ="SELECT categories.name FROM categories
+        LEFT JOIN product_categories ON categories.id = product_categories.category_id
+        WHERE product_categories.product_id LIKE '$id'";
+
+    $result = getResultDB($link, $query);
+    if($result){
+        $categories = mysqli_fetch_all( $result );
+
+        return array_reduce($categories, function ($carry, $item){
+            $carry .= empty($carry) ? $item[0] : ', ' . $item[0];
+            return $carry;
+        });
+    }
+    return '';
+}
