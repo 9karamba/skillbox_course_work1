@@ -5,6 +5,8 @@ if(getRole() != 'admin'){
     header("Location: /");
 }
 
+$products = getProducts();
+
 include dirname(__FILE__) . '/../header.php';
 ?>
 
@@ -19,7 +21,7 @@ include dirname(__FILE__) . '/../header.php';
     <span class="page-products__header-field">Новинка</span>
   </div>
   <ul class="page-products__list">
-      <?php foreach (getProducts() as $product): ?>
+      <?php foreach ($products['obj'] as $product): ?>
         <li class="product-item page-products__item">
           <b class="product-item__name"><?= $product["name"] ?></b>
           <span class="product-item__field"><?= $product["id"] ?></span>
@@ -30,6 +32,17 @@ include dirname(__FILE__) . '/../header.php';
           <button class="product-item__delete" data-product="<?= $product["id"] ?>"></button>
         </li>
       <?php endforeach; ?>
+
+      <ul class="shop__paginator paginator">
+          <?php for ($i = 1; $i < $products['pagination']['total']; $i++): ?>
+              <li>
+                  <a class="paginator__item" <?= $products['pagination']['current'] == $i ? '' : 'href="/admin/products/?page='. $i .'"' ?>>
+                      <?= $i ?>
+                  </a>
+              </li>
+          <?php endfor; ?>
+      </ul>
+
   </ul>
 </main>
 

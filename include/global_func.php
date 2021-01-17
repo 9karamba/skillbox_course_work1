@@ -100,10 +100,28 @@ function getCategories(){
 
 function getProducts(){
     $link = connectionDB();
-    $query ="SELECT * FROM products";
+    $num = 5;
+    $page = $_GET['page'] ?? 1;
 
-    $result = getResultDB($link, $query);
-    return mysqli_fetch_all( $result, MYSQLI_ASSOC );
+    $result = getResultDB($link,"SELECT COUNT(*) FROM products");
+    $posts = mysqli_fetch_row($result);
+
+    $total = intval(($posts[0] - 1) / $num) + 1;
+    $page = intval($page);
+
+    if(empty($page) or $page < 0) $page = 1;
+    if($page > $total) $page = $total;
+
+    $start = $page * $num - $num;
+    $result = getResultDB($link,"SELECT * FROM products LIMIT {$start}, {$num}");
+
+    return [
+        'obj' => mysqli_fetch_all($result, MYSQLI_ASSOC),
+        'pagination' => [
+            'current' => $page,
+            'total'   => $total
+        ]
+    ];
 }
 
 function getProductsCategories($id){

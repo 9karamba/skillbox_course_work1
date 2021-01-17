@@ -42,7 +42,7 @@
         <?php
             foreach ($menu as $item) { ?>
                 <li>
-                    <a class="main-menu__item <?= $item['href'] === $uri ? 'active' : '' ?>" href="<?= $item['href'] ?>">
+                    <a class="main-menu__item <?= strripos($uri, $item['href']) === false ? '' : 'active' ?>" href="<?= $item['href'] ?>">
                         <?= $item['name'] ?>
                     </a>
                 </li>
