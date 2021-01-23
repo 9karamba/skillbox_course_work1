@@ -570,7 +570,8 @@ a {
     margin-bottom: 20px;
     border: 1px solid #EBEBEB;
     width: 270px;
-    height: 362px; }
+    height: 362px;
+    overflow: hidden; }
   .product img {
     -o-object-fit: cover;
        object-fit: cover; }

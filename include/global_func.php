@@ -92,7 +92,7 @@ function getRole()
 
 function getCategories(){
     $link = connectionDB();
-    $query ="SELECT * FROM categories";
+    $query ="SELECT * FROM categories ";
 
     $result = getResultDB($link, $query);
     return mysqli_fetch_all( $result, MYSQLI_ASSOC );
@@ -100,10 +100,44 @@ function getCategories(){
 
 function getProducts(){
     $link = connectionDB();
+    $query = "SELECT * FROM ";
+    $table = "products ";
+    $args = [];
     $num = 5;
-    $page = $_GET['page'] ?? 1;
+    $page     = $_GET['page'] ?? 1;
+    $category = $_GET['category'] ?? '';
+    $new      = $_GET['new'] ?? '';
+    $sale     = $_GET['sale'] ?? '';
+    $minPrice = $_GET['min-price'] ?? '';
+    $maxPrice = $_GET['max-price'] ?? '';
+    $sort = $_GET['sort'] ?? '';
+    $order = $_GET['order'] ?? 'asc';
 
-    $result = getResultDB($link,"SELECT COUNT(*) FROM products");
+    if (!empty($new)){
+        $args[] = "products.new = 1";
+    }
+    if (!empty($sale)){
+        $args[] = "products.sale = 1";
+    }
+    if (!empty($minPrice) && !empty($maxPrice)){
+        $args[] = "products.price > {$minPrice}";
+        $args[] = "products.price < {$maxPrice} ";
+    }
+
+    if (!empty($category)){
+        $table = "product_categories
+        LEFT JOIN products ON products.id = product_categories.product_id
+        WHERE product_categories.category_id = '$category' ";
+        if (count($args) > 0 ) {
+            $table .= "AND ";
+        }
+    }
+    elseif (count($args) > 0 ) {
+        $table .= "WHERE ";
+    }
+
+    $table .= join(' AND ', $args);
+    $result = getResultDB($link,"SELECT COUNT(*) FROM " . $table);
     $posts = mysqli_fetch_row($result);
 
     $total = intval(($posts[0] - 1) / $num) + 1;
@@ -113,10 +147,16 @@ function getProducts(){
     if($page > $total) $page = $total;
 
     $start = $page * $num - $num;
-    $result = getResultDB($link,"SELECT * FROM products LIMIT {$start}, {$num}");
+
+    if (!empty($sort)) {
+        $table .= " ORDER BY {$sort} {$order} ";
+    }
+
+    $result = getResultDB($link,$query . $table . " LIMIT {$start}, {$num}");
 
     return [
         'obj' => mysqli_fetch_all($result, MYSQLI_ASSOC),
+        'count' => $posts[0],
         'pagination' => [
             'current' => $page,
             'total'   => $total
@@ -140,4 +180,20 @@ function getProductsCategories($id){
         });
     }
     return '';
+}
+
+function getUrl($type, $num) {
+    parse_str($_SERVER['QUERY_STRING'], $vars);
+    $uri = '?' . http_build_query(array_diff_key($vars,array($type=>"")));
+
+    if (preg_match ('/(\?)/', $uri) && stripos($uri, $type) === false) {
+        $uri .= '&' . $type . '=' . $num;
+    }
+    elseif (preg_match ('/(\?)/', $uri)) {
+        $uri = preg_replace("/(".$type."=[0-9]+)/i", "".$type."=".$num, $uri);
+    }
+    else {
+        $uri .= '?' . $type . '=' . $num;
+    }
+    return $uri;
 }

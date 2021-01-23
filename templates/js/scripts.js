@@ -312,15 +312,21 @@ if (productsList) {
 // jquery range maxmin
 if (document.querySelector('.shop-page')) {
 
+  let min = get('min-price') ?? 0,
+      max = get('max-price') ?? 32000;
+
   $('.range__line').slider({
-    min: 350,
+    min: 0,
     max: 32000,
-    values: [350, 32000],
+    values: [min, max],
     range: true,
     stop: function(event, ui) {
 
       $('.min-price').text($('.range__line').slider('values', 0) + ' руб.');
       $('.max-price').text($('.range__line').slider('values', 1) + ' руб.');
+
+      $('input[name="min-price"]').val($('.range__line').slider('values', 0));
+      $('input[name="max-price"]').val($('.range__line').slider('values', 1));
 
     },
     slide: function(event, ui) {
@@ -328,7 +334,28 @@ if (document.querySelector('.shop-page')) {
       $('.min-price').text($('.range__line').slider('values', 0) + ' руб.');
       $('.max-price').text($('.range__line').slider('values', 1) + ' руб.');
 
+      $('input[name="min-price"]').val($('.range__line').slider('values', 0));
+      $('input[name="max-price"]').val($('.range__line').slider('values', 1));
+
     }
   });
 
 }
+
+function get(name){
+  if(name = (new RegExp('[?&]'+encodeURIComponent(name)+'=([^&]*)')).exec(location.search))
+    return decodeURIComponent(name[1]);
+}
+
+const productsSorting = document.querySelectorAll('.custom-form__select');
+productsSorting.forEach(function callback(currentValue, index) {
+  currentValue.addEventListener('change', evt => {
+
+    let sort = $('.custom-form__select[name="sort"]').val() ?? '';
+
+    if (sort !== '') {
+      document.querySelector('.shop__sorting').submit();
+    }
+
+  });
+});

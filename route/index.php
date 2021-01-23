@@ -3,8 +3,8 @@
 /* Получаем URL в переменную $result */
 $result = $_SERVER['REQUEST_URI'];
 
-/* проверяем, что бы в URL не было ничего, кроме символов алфавита (a-zA-Z), цифр (0-9), а также . / - _ # в противном случае - выдать ошибку 404 */
-if (preg_match ('/([^a-zA-Z0-9\?\=\.\/\-\_\#])/', $result)) {
+/* проверяем, что бы в URL не было ничего, кроме символов алфавита (a-zA-Z), цифр (0-9), а также . / - _ # & ? = в противном случае - выдать ошибку 404 */
+if (preg_match ('/([^a-zA-Z0-9\?\=\&\.\/\-\_\#])/', $result)) {
 	header('HTTP/1.0 404 Not Found');
 	echo 'Недопустимые символы в URL';
 	exit;
@@ -26,8 +26,16 @@ else {
                 $url = '/templates/admin/login.php';
             }
 			break;
+        case 'parts':
+            $url = '/templates/parts/' . $array_url[1] . '.php';
+            break;
 		default:
-            $url = '/templates/' . $array_url[0] . '.php';
+            if (preg_match ('/(\?)/', $array_url[0])) {
+                $url = '/templates/index.php';
+            }
+            else{
+                $url = '/templates/' . $array_url[0] . '.php';
+            }
 
             if (!file_exists('..' . $url)) {
                 $url = '/templates/404.php';
