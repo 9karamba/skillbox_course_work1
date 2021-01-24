@@ -8,7 +8,7 @@ function connectionDB(){
     
     // подключаемся к серверу
     $link = mysqli_connect($host, $user, $password, $database) 
-        or die("Ошибка " . mysqli_error($link));
+        or die("Ошибка: " . mysqli_error($link));
     
     return $link;
 }
@@ -19,6 +19,6 @@ function getResultDB($link, $query){
         return $result;
     }
     else{
-        die('Ошибка $result=' . $result);
+        die('Ошибка: $result=' . $result);
     }
 }

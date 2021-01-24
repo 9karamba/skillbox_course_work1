@@ -55,8 +55,30 @@ else {
             $error = "Ошибка пользовательских данных.";
         }
     }
+
+    $query ="SELECT price FROM products WHERE id={$product_id}";
+    $result = getResultDB($link, $query);
+
+    $price = mysqli_fetch_row($result);
+    if ($price) {
+        $price = $price[0];
+        if ($_POST["delivery"] != 'no') {
+            $query ="SELECT price, free_price FROM delivery WHERE id={$delivery_id}";
+            $result = getResultDB($link, $query);
+            $item = mysqli_fetch_row($result);
+
+            if ($item[1] != null && $price < $item[1]) {
+                $price += $item[0];
+            }
+        }
+    }
+    else {
+        $error = "Продукт не найден в базе.";
+    }
+
+
     if(empty($error) && $user_id != null) {
-        $query = "INSERT INTO orders (user_id, delivery_id, payment_id, product_id, comment, status) VALUES ('{$user_id}', {$delivery_id}, '{$payment_id}', '{$product_id}', '{$comment}', 0);";
+        $query = "INSERT INTO orders (user_id, delivery_id, payment_id, product_id, price, comment, status) VALUES ('{$user_id}', {$delivery_id}, '{$payment_id}', '{$product_id}', '{$price}', '{$comment}', 0);";
         $result = getResultDB($link, $query);
         if (!$result) {
             $error = "Не удалось создать заказ.";

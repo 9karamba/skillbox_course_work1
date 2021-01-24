@@ -235,15 +235,33 @@ if (pageOrderList) {
     if (evt.target.classList && evt.target.classList.contains('order-item__btn')) {
 
       const status = evt.target.previousElementSibling;
+      let stat = 0;
 
       if (status.classList && status.classList.contains('order-item__info--no')) {
-        status.textContent = 'Выполнено';
-      } else {
-        status.textContent = 'Не выполнено';
+        stat = 1;
       }
 
-      status.classList.toggle('order-item__info--no');
-      status.classList.toggle('order-item__info--yes');
+      let request = $.ajax({
+        url: "../../include/update_status.php",
+        method: "POST",
+        data: { id: $('.order-item__info--id').text(), status : stat },
+        dataType: "html"
+      });
+
+      request.done(function(result) {
+        if (result === '') {
+          status.textContent = stat ? 'Выполнено' : 'Не выполнено';
+          status.classList.toggle('order-item__info--no');
+          status.classList.toggle('order-item__info--yes');
+        }
+        else{
+          alert(result);
+        }
+      });
+
+      request.fail(function( jqXHR, textStatus ) {
+        console.log( "Request failed: " + textStatus );
+      });
 
     }
 

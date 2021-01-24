@@ -213,3 +213,22 @@ function getPayment() {
     $result = getResultDB($link, $query);
     return mysqli_fetch_all( $result, MYSQLI_ASSOC );
 }
+
+function getOrders() {
+    $link = connectionDB();
+    $query ="SELECT orders.id, 
+                    orders.price, 
+                    orders.comment, 
+                    orders.status, 
+                    users.name AS user_name, 
+                    users.phone, 
+                    users.address, 
+                    delivery.name AS delivery_name, 
+                    payment.name AS payment_name FROM orders
+        LEFT JOIN users ON orders.user_id = users.id
+        LEFT JOIN delivery ON orders.delivery_id = delivery.id
+        LEFT JOIN payment ON orders.payment_id = payment.id";
+
+    $result = getResultDB($link, $query);
+    return mysqli_fetch_all( $result, MYSQLI_ASSOC );
+}
