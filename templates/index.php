@@ -98,8 +98,8 @@ $products = getProducts();
         <p class="shop__sorting-res">Найдено <span class="res-sort"><?= $products["count"] ?? 0 ?></span> моделей</p>
       </form>
         <section class="shop__list">
-            <?php foreach ($products['obj'] as $product): ?>
-                <article class="shop__item product" tabindex="0">
+            <?php foreach ($products['obj'] as $index=>$product): ?>
+                <article class="shop__item product" tabindex="<?= $index ?>" data-id="<?= $product["id"] ?>">
                     <div class="product__image">
                         <img src="<?= $product["photo"] ?>" alt="product-name">
                     </div>

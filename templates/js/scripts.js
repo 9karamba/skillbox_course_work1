@@ -123,6 +123,8 @@ if (shopList) {
 
       const form = shopOrder.querySelector('.custom-form');
       labelHidden(form);
+      // подстановка id продукта в скрытое поле
+      $('.shop-page__order input[name="product"]').val($(evt.target).closest('.shop__item').data('id'));
 
       toggleDelivery(shopOrder);
 
@@ -154,28 +156,49 @@ if (shopList) {
 
           evt.preventDefault();
 
-          toggleHidden(shopOrder, popupEnd);
+          let data = Object.fromEntries(new FormData(form).entries());
+          console.log(data);
 
-          popupEnd.classList.add('fade');
-          setTimeout(() => popupEnd.classList.remove('fade'), 1000);
+          let request = $.ajax({
+            url: "../../include/add_order.php",
+            method: "POST",
+            data: data,
+            dataType: "html"
+          });
 
-          window.scroll(0, 0);
+          request.done(function(result) {
+            if (result === '') {
+              toggleHidden(shopOrder, popupEnd);
 
-          const buttonEnd = popupEnd.querySelector('.button');
+              popupEnd.classList.add('fade');
+              setTimeout(() => popupEnd.classList.remove('fade'), 1000);
 
-          buttonEnd.addEventListener('click', () => {
+              window.scroll(0, 0);
+
+              const buttonEnd = popupEnd.querySelector('.button');
+
+              buttonEnd.addEventListener('click', () => {
 
 
-            popupEnd.classList.add('fade-reverse');
+                popupEnd.classList.add('fade-reverse');
 
-            setTimeout(() => {
+                setTimeout(() => {
 
-              popupEnd.classList.remove('fade-reverse');
+                  popupEnd.classList.remove('fade-reverse');
 
-              toggleHidden(popupEnd, document.querySelector('.intro'), document.querySelector('.shop'));
+                  toggleHidden(popupEnd, document.querySelector('.intro'), document.querySelector('.shop'));
 
-            }, 1000);
+                }, 1000);
 
+              });
+            }
+            else{
+              alert(result);
+            }
+          });
+
+          request.fail(function( jqXHR, textStatus ) {
+            console.log( "Request failed: " + textStatus );
           });
 
         } else {

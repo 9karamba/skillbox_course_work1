@@ -1,3 +1,9 @@
+<?php
+
+$delivery = getDelivery();
+$payment = getPayment();
+?>
+
 <section class="shop-page__order" hidden="">
     <div class="shop-page__wrapper">
       <h2 class="h h--1">Оформление заказа</h2>
@@ -21,21 +27,23 @@
               <p class="custom-form__input-label">Отчество</p>
             </label>
             <label class="custom-form__input-wrapper" for="phone">
-              <input id="phone" class="custom-form__input" type="tel" name="thirdName" required="">
+              <input id="phone" class="custom-form__input" type="tel" name="tel" required="">
               <p class="custom-form__input-label">Телефон <span class="req">*</span></p>
             </label>
             <label class="custom-form__input-wrapper" for="email">
-              <input id="email" class="custom-form__input" type="email" name="thirdName" required="">
+              <input id="email" class="custom-form__input" type="email" name="email" required="">
               <p class="custom-form__input-label">Почта <span class="req">*</span></p>
             </label>
           </div>
         </fieldset>
         <fieldset class="custom-form__group js-radio">
           <legend class="custom-form__title custom-form__title--radio">Способ доставки</legend>
-          <input id="dev-no" class="custom-form__radio" type="radio" name="delivery" value="dev-no" checked="">
+          <input id="dev-no" class="custom-form__radio" type="radio" name="delivery" value="no" checked="">
           <label for="dev-no" class="custom-form__radio-label">Самовывоз</label>
-          <input id="dev-yes" class="custom-form__radio" type="radio" name="delivery" value="dev-yes">
-          <label for="dev-yes" class="custom-form__radio-label">Курьерная доставка</label>
+          <?php foreach ($delivery as $item): ?>
+            <input id="dev<?= $item['id'] ?>" class="custom-form__radio" type="radio" name="delivery" value="<?= $item['id'] ?>">
+            <label for="dev<?= $item['id'] ?>" class="custom-form__radio-label"><?= $item['name'] ?></label>
+          <?php endforeach; ?>
         </fieldset>
         <div class="shop-page__delivery shop-page__delivery--no">
           <table class="custom-table">
@@ -86,15 +94,16 @@
         </div>
         <fieldset class="custom-form__group shop-page__pay">
           <legend class="custom-form__title custom-form__title--radio">Способ оплаты</legend>
-          <input id="cash" class="custom-form__radio" type="radio" name="pay" value="cash">
-          <label for="cash" class="custom-form__radio-label">Наличные</label>
-          <input id="card" class="custom-form__radio" type="radio" name="pay" value="card" checked="">
-          <label for="card" class="custom-form__radio-label">Банковской картой</label>
+          <?php foreach ($payment as $item): ?>
+            <input id="payment<?= $item['id'] ?>" class="custom-form__radio" type="radio" name="pay" value="<?= $item['id'] ?>">
+            <label for="payment<?= $item['id'] ?>" class="custom-form__radio-label"><?= $item['name'] ?></label>
+          <?php endforeach; ?>
         </fieldset>
         <fieldset class="custom-form__group shop-page__comment">
           <legend class="custom-form__title custom-form__title--comment">Комментарии к заказу</legend>
           <textarea class="custom-form__textarea" name="comment"></textarea>
         </fieldset>
+        <input type="hidden" name="product" value="">
         <button class="button" type="submit">Отправить заказ</button>
       </form>
     </div>

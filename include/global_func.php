@@ -205,3 +205,11 @@ function getDelivery() {
     $result = getResultDB($link, $query);
     return mysqli_fetch_all( $result, MYSQLI_ASSOC );
 }
+
+function getPayment() {
+    $link = connectionDB();
+    $query ="SELECT * FROM payment";
+
+    $result = getResultDB($link, $query);
+    return mysqli_fetch_all( $result, MYSQLI_ASSOC );
+}

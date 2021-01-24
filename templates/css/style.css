@@ -132,11 +132,13 @@ a {
   .custom-form__radio-label {
     position: relative;
     padding-left: 40px;
-    cursor: pointer; }
+    cursor: pointer;
+    display: inline-block;
+    margin-bottom: 20px;}
     .custom-form__radio-label:hover::before, .custom-form__radio-label:focus::before {
       border-color: #25A4CC; }
     .custom-form__radio-label:not(:last-child) {
-      margin-right: 45px; }
+      margin-right: 15px; }
     .custom-form__radio-label::before, .custom-form__radio-label::after {
       content: '';
       position: absolute;
