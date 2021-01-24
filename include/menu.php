@@ -14,11 +14,11 @@ function getMenu()
             ],
             [
                 'name' => 'Новинки',
-                'href' => '/'
+                'href' => '/?new=on'
             ],
             [
                 'name' => 'Sale',
-                'href' => '/'
+                'href' => '/?sale=on'
             ],
             [
                 'name' => 'Доставка',

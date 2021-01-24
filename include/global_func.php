@@ -197,3 +197,11 @@ function getUrl($type, $num) {
     }
     return $uri;
 }
+
+function getDelivery() {
+    $link = connectionDB();
+    $query ="SELECT * FROM delivery";
+
+    $result = getResultDB($link, $query);
+    return mysqli_fetch_all( $result, MYSQLI_ASSOC );
+}

@@ -5,18 +5,14 @@
     </a>
     <nav class="page-footer__menu">
       <ul class="main-menu main-menu--footer">
-        <li>
-          <a class="main-menu__item" href="/">Главная</a>
-        </li>
-        <li>
-          <a class="main-menu__item" href="#">Новинки</a>
-        </li>
-        <li>
-          <a class="main-menu__item">Sale</a>
-        </li>
-        <li>
-          <a class="main-menu__item" href="/delivery">Доставка</a>
-        </li>
+          <?php
+          foreach ($menu as $item) { ?>
+              <li>
+                  <a class="main-menu__item <?= strripos($uri, $item['href']) === false ? '' : 'active' ?>" href="<?= $item['href'] ?>">
+                      <?= $item['name'] ?>
+                  </a>
+              </li>
+          <?php } ?>
       </ul>
     </nav>
     <address class="page-footer__copyright">
