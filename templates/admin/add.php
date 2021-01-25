@@ -1,8 +1,11 @@
 <?php
+
 include_once $_SERVER['DOCUMENT_ROOT'].'/include/global_func.php';
+
 if(getRole() != 'admin'){
     header("Location: /");
 }
+
 include $_SERVER['DOCUMENT_ROOT'].'/include/add_product.php';
 include dirname(__FILE__) . '/../header.php';
 ?>
