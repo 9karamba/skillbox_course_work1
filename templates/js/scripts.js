@@ -52,8 +52,8 @@ const toggleDelivery = (elem) => {
         }
       });
 
-
-      toggleHidden(deliveryYes, deliveryNo);
+      deliveryYes.hidden = true;
+      deliveryNo.hidden = false;
 
       deliveryNo.classList.add('fade');
       setTimeout(() => {
@@ -68,7 +68,8 @@ const toggleDelivery = (elem) => {
         }
       });
 
-      toggleHidden(deliveryYes, deliveryNo);
+      deliveryYes.hidden = false;
+      deliveryNo.hidden = true;
 
       deliveryYes.classList.add('fade');
       setTimeout(() => {
