@@ -24,7 +24,7 @@ elseif( isset( $_POST["login"] )) {
         mysqli_free_result($result);
         mysqli_close($link);
 
-        if(password_verify($_POST['password'], $password)){
+        if($password != null && password_verify($_POST['password'], $password)){
             $_SESSION['id'] = $id;
             setcookie('email', $_POST['email'], time() + 3600 * 24 * 30, '/');
             setcookie('password', $password, time() + 3600 * 24 * 30, '/');

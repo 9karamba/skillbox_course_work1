@@ -2,6 +2,10 @@
 
 include_once $_SERVER['DOCUMENT_ROOT'].'/include/global_func.php';
 
+if(getRole() != 'admin'){
+    return http_response_code(403);
+}
+
 if (isset($_POST['id'])){
     $id = intval( htmlspecialchars($_POST["id"]) );
 

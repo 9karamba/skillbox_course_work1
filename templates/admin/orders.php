@@ -1,6 +1,9 @@
 <?php
     include dirname(__FILE__) . '/../header.php';
 
+    if(getRole() != 'admin' || getRole() != 'editor'){
+        header("Location: /");
+    }
     $orders = getOrders();
 ?>
 

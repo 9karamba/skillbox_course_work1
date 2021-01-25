@@ -3,6 +3,10 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/include/global_func.php';
 
 $error = '';
 
+if(getRole() != 'admin' || getRole() != 'editor'){
+    return http_response_code(403);
+}
+
 if (!isset($_POST['status'])){
     $error = "Статус не может быть обработан.";
 }

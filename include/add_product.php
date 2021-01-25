@@ -3,6 +3,10 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/include/global_func.php';
 
 $uploaddir = '/uploads/';
 
+if(getRole() != 'admin'){
+    return http_response_code(403);
+}
+
 if(!is_dir($_SERVER['DOCUMENT_ROOT'] . $uploaddir)){
     mkdir($_SERVER['DOCUMENT_ROOT'] . $uploaddir, 0777);
 }
