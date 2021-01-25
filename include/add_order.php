@@ -42,7 +42,7 @@ else {
     $user_id = mysqli_fetch_row($result);
     if ($user_id) {
         $user_id = $user_id[0];
-        $query = "UPDATE users SET name='{$name}', phone='{$phone}', address='{$address}' WHERE id LIKE '{$user_id}'";
+        $query = "UPDATE users SET name='{$name}', phone='{$phone}', address='{$address}' WHERE id ={$user_id}";
         $result = getResultDB($link, $query);
     }
     else{
