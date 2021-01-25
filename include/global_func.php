@@ -227,7 +227,8 @@ function getOrders() {
                     payment.name AS payment_name FROM orders
         LEFT JOIN users ON orders.user_id = users.id
         LEFT JOIN delivery ON orders.delivery_id = delivery.id
-        LEFT JOIN payment ON orders.payment_id = payment.id";
+        LEFT JOIN payment ON orders.payment_id = payment.id
+        ORDER BY orders.status, orders.id DESC";
 
     $result = getResultDB($link, $query);
     return mysqli_fetch_all( $result, MYSQLI_ASSOC );

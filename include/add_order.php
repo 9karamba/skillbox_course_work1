@@ -67,8 +67,9 @@ else {
             $result = getResultDB($link, $query);
             $item = mysqli_fetch_row($result);
 
-            if ($item[1] != null && $price < $item[1]) {
-                $price += $item[0];
+            $price += $item[0];
+            if ($item[1] != null && $price > $item[1]) {
+                $price -= $item[0];
             }
         }
     }

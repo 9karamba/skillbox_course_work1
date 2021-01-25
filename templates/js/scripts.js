@@ -245,7 +245,7 @@ if (pageOrderList) {
       let request = $.ajax({
         url: "../../include/update_status.php",
         method: "POST",
-        data: { id: $('.order-item__info--id').text(), status : stat },
+        data: { id: $(evt.target).closest('.order-item').find('.order-item__info--id').text(), status : stat },
         dataType: "html"
       });
 
