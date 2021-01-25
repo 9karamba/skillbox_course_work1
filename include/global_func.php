@@ -103,7 +103,7 @@ function getProducts(){
     $query = "SELECT * FROM ";
     $table = "products ";
     $args = [];
-    $num = 5;
+    $num = 6;
     $page     = $_GET['page'] ?? 1;
     $category = $_GET['category'] ?? '';
     $new      = $_GET['new'] ?? '';
