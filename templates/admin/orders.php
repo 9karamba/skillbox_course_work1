@@ -1,9 +1,11 @@
 <?php
-    include dirname(__FILE__) . '/../header.php';
-
+    include_once $_SERVER['DOCUMENT_ROOT'].'/include/global_func.php';
     if(getRole() != 'admin' || getRole() != 'editor'){
         header("Location: /");
     }
+
+    include dirname(__FILE__) . '/../header.php';
+
     $orders = getOrders();
 ?>
 
