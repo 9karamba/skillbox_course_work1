@@ -3,7 +3,7 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/include/global_func.php';
 
 $error = '';
 
-if(getRole() != 'admin' || getRole() != 'editor'){
+if(getRole() != 'user'){
     return http_response_code(403);
 }
 

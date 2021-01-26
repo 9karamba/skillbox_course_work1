@@ -183,8 +183,12 @@ function getProductsCategories($id){
 }
 
 function getUrl($type, $num) {
-    parse_str($_SERVER['QUERY_STRING'], $vars);
-    $uri = '?' . http_build_query(array_diff_key($vars,array($type=>"")));
+    $uri = '';
+
+    if(isset($_SERVER['QUERY_STRING'])){
+        parse_str($_SERVER['QUERY_STRING'], $vars);
+        $uri = '?' . http_build_query(array_diff_key($vars,array($type=>"")));
+    }
 
     if (preg_match ('/(\?)/', $uri) && stripos($uri, $type) === false) {
         $uri .= '&' . $type . '=' . $num;

@@ -37,7 +37,7 @@ else {
                 $url = '/templates/' . $array_url[0] . '.php';
             }
 
-            if (!file_exists('..' . $url)) {
+            if (!file_exists($_SERVER['DOCUMENT_ROOT'] . $url)) {
                 $url = '/templates/404.php';
             }
 	endswitch;
