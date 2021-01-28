@@ -1,0 +1,17 @@
+# Включаем mod_rewrite
+RewriteEngine on
+
+#Запрещаем просмотр содержимого папки
+Options All -Indexes
+
+# Устанавливаем index.php индексным файлом
+DirectoryIndex index.php
+
+# Если файл физически не найден
+RewriteCond %{REQUEST_FILENAME} !-s
+
+# то направим на index.php с параметрами URI
+RewriteRule ^(.+)$ /index.php [L]
+
+php_value error_reporting -1
+php_value display_errors on
