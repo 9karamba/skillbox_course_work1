@@ -394,9 +394,10 @@ const productsSorting = document.querySelectorAll('.custom-form__select');
 productsSorting.forEach(function callback(currentValue, index) {
   currentValue.addEventListener('change', evt => {
 
-    let sort = $('.custom-form__select[name="sort"]').val() ?? '';
+    let sort = $('.custom-form__select[name="sort"]').val() ?? '',
+        order = $('.custom-form__select[name="order"]').val() ?? '';
 
-    if (sort !== '') {
+    if (sort !== '' && order !== '') {
       document.querySelector('.shop__sorting').submit();
     }
 
