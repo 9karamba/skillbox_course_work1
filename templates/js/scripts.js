@@ -105,15 +105,16 @@ if (filterWrapper) {
 }
 
 const shopList = document.querySelector('.shop__list');
-if (shopList) {
+const shopOrder = document.querySelector('.shop-page__order');
+if (shopList && shopOrder) {
+
+  const form = shopOrder.querySelector('.custom-form');
 
   shopList.addEventListener('click', (evt) => {
 
-    const prod = evt.path || (evt.composedPath && evt.composedPath());;
+    const prod = evt.path || (evt.composedPath && evt.composedPath());
 
     if (prod.some(pathItem => pathItem.classList && pathItem.classList.contains('shop__item'))) {
-
-      const shopOrder = document.querySelector('.shop-page__order');
 
       toggleHidden(document.querySelector('.intro'), document.querySelector('.shop'), shopOrder);
 
@@ -129,85 +130,85 @@ if (shopList) {
 
       toggleDelivery(shopOrder);
 
-      const buttonOrder = shopOrder.querySelector('.button');
-      const popupEnd = document.querySelector('.shop-page__popup-end');
+    }
+  });
 
-      buttonOrder.addEventListener('click', (evt) => {
+  const buttonOrder = shopOrder.querySelector('.button');
+  const popupEnd = document.querySelector('.shop-page__popup-end');
 
-        form.noValidate = true;
+  buttonOrder.addEventListener('click', (evt) => {
 
-        const inputs = Array.from(shopOrder.querySelectorAll('[required]'));
+    form.noValidate = true;
 
-        inputs.forEach(inp => {
+    const inputs = Array.from(shopOrder.querySelectorAll('[required]'));
 
-          if (!!inp.value) {
+    inputs.forEach(inp => {
 
-            if (inp.classList.contains('custom-form__input--error')) {
-              inp.classList.remove('custom-form__input--error');
-            }
+      if (!!inp.value) {
 
-          } else {
+        if (inp.classList.contains('custom-form__input--error')) {
+          inp.classList.remove('custom-form__input--error');
+        }
 
-            inp.classList.add('custom-form__input--error');
+      } else {
 
-          }
-        });
+        inp.classList.add('custom-form__input--error');
 
-        if (inputs.every(inp => !!inp.value)) {
+      }
+    });
 
-          evt.preventDefault();
+    if (inputs.every(inp => !!inp.value)) {
 
-          let data = Object.fromEntries(new FormData(form).entries());
-          console.log(data);
+      evt.preventDefault();
 
-          let request = $.ajax({
-            url: "../../include/add_order.php",
-            method: "POST",
-            data: data,
-            dataType: "html"
-          });
+      let data = Object.fromEntries(new FormData(form).entries());
+      console.log(data);
 
-          request.done(function(result) {
-            if (result === '') {
-              toggleHidden(shopOrder, popupEnd);
+      let request = $.ajax({
+        url: "../../include/add_order.php",
+        method: "POST",
+        data: data,
+        dataType: "html"
+      });
 
-              popupEnd.classList.add('fade');
-              setTimeout(() => popupEnd.classList.remove('fade'), 1000);
+      request.done(function(result) {
+        if (result === '') {
+          shopOrder.hidden = true;
+          popupEnd.hidden = false;
 
-              window.scroll(0, 0);
+          popupEnd.classList.add('fade');
+          setTimeout(() => popupEnd.classList.remove('fade'), 1000);
 
-              const buttonEnd = popupEnd.querySelector('.button');
-
-              buttonEnd.addEventListener('click', () => {
-
-
-                popupEnd.classList.add('fade-reverse');
-
-                setTimeout(() => {
-
-                  popupEnd.classList.remove('fade-reverse');
-
-                  toggleHidden(popupEnd, document.querySelector('.intro'), document.querySelector('.shop'));
-
-                }, 1000);
-
-              });
-            }
-            else{
-              alert(result);
-            }
-          });
-
-          request.fail(function( jqXHR, textStatus ) {
-            console.log( "Request failed: " + textStatus );
-          });
-
-        } else {
           window.scroll(0, 0);
-          evt.preventDefault();
+          form.reset();
+        }
+        else{
+          alert(result);
         }
       });
+
+      request.fail(function( jqXHR, textStatus ) {
+        console.log( "Request failed: " + textStatus );
+      });
+
+    } else {
+      window.scroll(0, 0);
+      evt.preventDefault();
     }
+  });
+
+  const buttonEnd = popupEnd.querySelector('.button');
+
+  buttonEnd.addEventListener('click', () => {
+    popupEnd.classList.add('fade-reverse');
+
+    setTimeout(() => {
+
+      popupEnd.classList.remove('fade-reverse');
+      toggleHidden(popupEnd, document.querySelector('.intro'), document.querySelector('.shop'));
+
+    }, 1000);
+
   });
 }
 
@@ -303,7 +304,7 @@ if (addList) {
       addInput.value = '';
       checkList(addList, addButton);
     });
-    console.log(evt.target.files);
+
     const file = evt.target.files[0];
     const reader = new FileReader();
 
