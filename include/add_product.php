@@ -74,7 +74,7 @@ if (isset( $_POST["add-product"] )) {
 
             if (!isset($error)) {
                 $link = connectionDB();
-                $query ="INSERT INTO products (name, price, new, sale, photo) VALUES ('{$name}', '{$price}', '{$new}', '{$sale}', '{$path}');";
+                $query ="INSERT INTO products SET name='{$name}', price='{$price}', new='{$new}', sale='{$sale}', photo='{$path}';";
 
                 $result = getResultDB($link, $query);
                 if ($result) {

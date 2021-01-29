@@ -42,7 +42,7 @@ if ( empty( $_POST["surname"] ) || empty( $_POST["name"] ) ||
         $query = "UPDATE users SET name='{$name}', phone='{$phone}', address='{$address}' WHERE id ={$user_id}";
         $result = getResultDB($link, $query);
     } else {
-        $query ="INSERT INTO users (email, name, phone, address) VALUES ('{$email}', '{$name}', '{$phone}', '{$address}');";
+        $query ="INSERT INTO users SET email='{$email}', name='{$name}', phone='{$phone}', address='{$address}';";
         $result = getResultDB($link, $query);
         if($result) {
             $user_id = mysqli_insert_id($link);
@@ -73,7 +73,7 @@ if ( empty( $_POST["surname"] ) || empty( $_POST["name"] ) ||
 
 
     if(empty($error) && $user_id != null) {
-        $query = "INSERT INTO orders (user_id, delivery_id, payment_id, product_id, price, comment, status) VALUES ('{$user_id}', {$delivery_id}, '{$payment_id}', '{$product_id}', '{$price}', '{$comment}', 0);";
+        $query = "INSERT INTO orders SET user_id='{$user_id}', delivery_id={$delivery_id}, payment_id='{$payment_id}', product_id='{$product_id}', price='{$price}', comment='{$comment}', status=0;";
         $result = getResultDB($link, $query);
         if (!$result) {
             $error = "Не удалось создать заказ.";
