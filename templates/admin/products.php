@@ -28,13 +28,13 @@ include dirname(__FILE__) . '/../header.php';
           <span class="product-item__field"><?= $product["price"] ?> руб.</span>
           <span class="product-item__field"><?= getProductsCategories($product["id"]) ?></span>
           <span class="product-item__field"><?= $product["new"] ? 'Да' : 'Нет' ?></span>
-          <a href="add/?product-id=<?= $product["id"] ?>" class="product-item__edit" aria-label="Редактировать"></a>
+          <a href="/admin/add/?product-id=<?= $product["id"] ?>" class="product-item__edit" aria-label="Редактировать"></a>
           <button class="product-item__delete" data-product="<?= $product["id"] ?>"></button>
         </li>
       <?php endforeach; ?>
 
       <ul class="shop__paginator paginator">
-          <?php for ($i = 1; $i < $products['pagination']['total']; $i++): ?>
+          <?php for ($i = 1; $i <= $products['pagination']['total']; $i++): ?>
               <li>
                   <a class="paginator__item" <?= $products['pagination']['current'] == $i ? '' : 'href="/admin/products/?page='. $i .'"' ?>>
                       <?= $i ?>

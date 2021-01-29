@@ -11,7 +11,7 @@ include dirname(__FILE__) . '/../header.php';
 ?>
 
 <main class="page-add">
-  <h1 class="h h--1">Добавление товара</h1>
+  <h1 class="h h--1"><?= isset($_GET['product-id']) ? 'Изменение' : 'Добавление' ?> товара</h1>
     <?php if ( isset($error) ) : ?>
         <p class="alert alert-error">
             <?= $error ?>
@@ -66,11 +66,11 @@ include dirname(__FILE__) . '/../header.php';
       <input type="checkbox" name="sale" id="sale" class="custom-form__checkbox" <?= isset($product) && $product && $product[0]["sale"] ? 'checked' : '' ?>>
       <label for="sale" class="custom-form__checkbox-label">Распродажа</label>
     </fieldset>
-    <button class="button" name="add-product" type="submit">Добавить товар</button>
+    <button class="button" name="add-product" type="submit"><?= isset($_GET['product-id']) ? 'Изменить' : 'Добавить' ?> товар</button>
   </form>
   <section class="shop-page__popup-end page-add__popup-end" <?= isset($error) || !isset($_POST["add-product"]) ? 'hidden' : '' ?>>
     <div class="shop-page__wrapper shop-page__wrapper--popup-end">
-      <h2 class="h h--1 h--icon shop-page__end-title">Товар успешно добавлен</h2>
+      <h2 class="h h--1 h--icon shop-page__end-title">Товар успешно <?= isset($_GET['product-id']) ? 'изменен' : 'добавлен' ?></h2>
     </div>
   </section>
 </main>

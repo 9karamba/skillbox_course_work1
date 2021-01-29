@@ -162,7 +162,6 @@ if (shopList && shopOrder) {
       evt.preventDefault();
 
       let data = Object.fromEntries(new FormData(form).entries());
-      console.log(data);
 
       let request = $.ajax({
         url: "../../include/add_order.php",
@@ -293,17 +292,18 @@ if (addList) {
 
   checkList(addList, addButton);
 
+  const template = document.createElement('LI');
+  const img = document.createElement('IMG');
+
+  template.className = 'add-list__item add-list__item--active';
+  $(addList).on('click', '.add-list__item--active', evt => {
+    addList.removeChild(evt.target);
+    $('input[name="product-image"]').val('');
+    addInput.value = '';
+    checkList(addList, addButton);
+  });
+
   addInput.addEventListener('change', evt => {
-
-    const template = document.createElement('LI');
-    const img = document.createElement('IMG');
-
-    template.className = 'add-list__item add-list__item--active';
-    template.addEventListener('click', evt => {
-      addList.removeChild(evt.target);
-      addInput.value = '';
-      checkList(addList, addButton);
-    });
 
     const file = evt.target.files[0];
     const reader = new FileReader();

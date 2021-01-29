@@ -29,7 +29,8 @@ if(isset( $_POST["add-product"] )){
         elseif($price <= 0){
             $error = "Цена должна быть числом и должна быть больше 0.";
         }
-        elseif (empty( $_FILES["product-photo"]["name"] ) && !is_numeric($id)){
+        elseif (empty( $_FILES["product-photo"]["name"] ) && !is_numeric($id) ||
+            is_numeric($id) && empty( $_POST["product-image"] ) && empty( $_FILES["product-photo"]["name"] )){
             $error = "Фотография не должна быть пустой.";
         }
         elseif (is_numeric($id)){
@@ -103,7 +104,8 @@ if(isset( $_POST["add-product"] )){
         }
     }
 }
-elseif(isset( $_GET["product-id"] )){
+
+if(isset( $_GET["product-id"] )){
     $id = intval( htmlspecialchars($_GET["product-id"]) );
 
     $link = connectionDB();
