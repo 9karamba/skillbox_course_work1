@@ -2,7 +2,8 @@
 
 include_once $_SERVER['DOCUMENT_ROOT'].'/config.php';
 
-function connectionDB(){
+function connectionDB()
+{
     // подключаемся к серверу
     $link = mysqli_connect(HOST, DB_USER, DB_PASSWORD, DB)
         or die("Ошибка: " . mysqli_error($link));
@@ -10,12 +11,12 @@ function connectionDB(){
     return $link;
 }
 
-function getResultDB($link, $query){
+function getResultDB($link, $query)
+{
     $result = mysqli_query($link, $query) or die("Ошибка " . mysqli_error($link));
-    if($result) {
+    if ($result) {
         return $result;
-    }
-    else{
+    } else {
         die('Ошибка: $result=' . $result);
     }
 }

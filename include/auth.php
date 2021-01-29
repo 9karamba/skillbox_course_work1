@@ -2,15 +2,13 @@
 
 include_once $_SERVER['DOCUMENT_ROOT'].'/include/global_func.php';
 
-if(login()) {
+if (login()) {
     header("Location: /admin/orders");
     exit;
-}
-elseif( isset( $_POST["login"] )) {
+} elseif( isset( $_POST["login"] )) {
     if ( !isset( $_POST["email"] ) || !isset( $_POST["password"] ) ) {
         $error = "Заполните все поля.";
-    }
-    else{
+    } else {
         $link = connectionDB();
 
         $email = $link->real_escape_string($_POST['email']);
@@ -24,15 +22,14 @@ elseif( isset( $_POST["login"] )) {
         mysqli_free_result($result);
         mysqli_close($link);
 
-        if($password != null && password_verify($_POST['password'], $password)){
+        if ($password != null && password_verify($_POST['password'], $password)) {
             $_SESSION['id'] = $id;
             setcookie('email', $_POST['email'], time() + 3600 * 24 * 30, '/');
             setcookie('password', $password, time() + 3600 * 24 * 30, '/');
 
             header("Location: /admin/orders");
             exit;
-        }
-        else{
+        } else{
             $error = "Неправильная почта или пароль.";
         }
     }

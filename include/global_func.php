@@ -8,10 +8,9 @@ session_start();
 function login()
 {
     if (isset($_SESSION['id'])) {
-        if(isset($_COOKIE['email']) && isset($_COOKIE['password'])) {
+        if (isset($_COOKIE['email']) && isset($_COOKIE['password'])) {
             return true;
-        }
-        else {
+        } else {
             $link = connectionDB();
             $query ="SELECT * FROM users WHERE id LIKE '{$_SESSION['id']}'";
 
@@ -23,20 +22,18 @@ function login()
 
             return true;
         }
-    }
-    else {
-        if(isset($_COOKIE['email']) && isset($_COOKIE['password'])) {
+    } else {
+        if (isset($_COOKIE['email']) && isset($_COOKIE['password'])) {
             $link = connectionDB();
             $query ="SELECT * FROM users WHERE email LIKE '{$_COOKIE['email']}'";
 
             $result = getResultDB($link, $query);
             $user = mysqli_fetch_row( $result );
 
-            if($_COOKIE['password'] == $user[2]){
+            if ($_COOKIE['password'] == $user[2]) {
                 $_SESSION['id'] = $user[0];
                 return true;
-            }
-            else {
+            } else {
                 setcookie('email', '', time() + 3600 * 24 * 30, '/');
                 setcookie('password', '', time() + 3600 * 24 * 30, '/');
                 return false;
@@ -50,7 +47,7 @@ function login()
 
 function logout()
 {
-    if (!isset($_SESSION)){
+    if (!isset($_SESSION)) {
         session_start();
     }
 
@@ -63,7 +60,7 @@ function logout()
 
 function getRole()
 {
-    if(login()){
+    if (login()) {
         $user_id = $_SESSION['id'];
         $link = connectionDB();
         $query ="SELECT role_id FROM user_roles WHERE user_id LIKE '{$user_id}'";
@@ -71,7 +68,7 @@ function getRole()
         $result = getResultDB($link, $query);
         $roles = mysqli_fetch_all( $result );
 
-        if(!empty($roles)) {
+        if (!empty($roles)) {
             $name = 'user';
 
             foreach ($roles as $role) {
@@ -80,7 +77,7 @@ function getRole()
 
                 $name = mysqli_fetch_row( $result )[0];
 
-                if($name == 'admin') {
+                if ($name == 'admin') {
                     return $name;
                 }
             }
@@ -90,7 +87,8 @@ function getRole()
     return 'user';
 }
 
-function getCategories(){
+function getCategories()
+{
     $link = connectionDB();
     $query ="SELECT * FROM categories ";
 
@@ -98,7 +96,8 @@ function getCategories(){
     return mysqli_fetch_all( $result, MYSQLI_ASSOC );
 }
 
-function getProducts(){
+function getProducts()
+{
     $link = connectionDB();
     $query = "SELECT * FROM ";
     $table = "products ";
@@ -113,26 +112,25 @@ function getProducts(){
     $sort = $_GET['sort'] ?? '';
     $order = $_GET['order'] ?? 'asc';
 
-    if (!empty($new)){
+    if (!empty($new)) {
         $args[] = "products.new = 1";
     }
-    if (!empty($sale)){
+    if (!empty($sale)) {
         $args[] = "products.sale = 1";
     }
-    if (!empty($minPrice) && !empty($maxPrice)){
+    if (!empty($minPrice) && !empty($maxPrice)) {
         $args[] = "products.price > {$minPrice}";
         $args[] = "products.price < {$maxPrice} ";
     }
 
-    if (!empty($category)){
+    if (!empty($category)) {
         $table = "product_categories
         LEFT JOIN products ON products.id = product_categories.product_id
         WHERE product_categories.category_id = '$category' ";
         if (count($args) > 0 ) {
             $table .= "AND ";
         }
-    }
-    elseif (count($args) > 0 ) {
+    } elseif (count($args) > 0 ) {
         $table .= "WHERE ";
     }
 
@@ -143,8 +141,8 @@ function getProducts(){
     $total = intval(($posts[0] - 1) / $num) + 1;
     $page = intval($page);
 
-    if(empty($page) or $page < 0) $page = 1;
-    if($page > $total) $page = $total;
+    if (empty($page) or $page < 0) $page = 1;
+    if ($page > $total) $page = $total;
 
     $start = $page * $num - $num;
 
@@ -164,14 +162,15 @@ function getProducts(){
     ];
 }
 
-function getProductsCategories($id){
+function getProductsCategories($id)
+{
     $link = connectionDB();
     $query ="SELECT categories.name FROM categories
         LEFT JOIN product_categories ON categories.id = product_categories.category_id
         WHERE product_categories.product_id LIKE '$id'";
 
     $result = getResultDB($link, $query);
-    if($result){
+    if ($result) {
         $categories = mysqli_fetch_all( $result );
 
         return array_reduce($categories, function ($carry, $item){
@@ -182,27 +181,27 @@ function getProductsCategories($id){
     return '';
 }
 
-function getUrl($type, $num) {
+function getUrl($type, $num)
+{
     $uri = '';
 
-    if(isset($_SERVER['QUERY_STRING'])){
+    if (isset($_SERVER['QUERY_STRING'])) {
         parse_str($_SERVER['QUERY_STRING'], $vars);
         $uri = '?' . http_build_query(array_diff_key($vars,array($type=>"")));
     }
 
     if (preg_match ('/(\?)/', $uri) && stripos($uri, $type) === false) {
         $uri .= '&' . $type . '=' . $num;
-    }
-    elseif (preg_match ('/(\?)/', $uri)) {
+    } elseif (preg_match ('/(\?)/', $uri)) {
         $uri = preg_replace("/(".$type."=[0-9]+)/i", "".$type."=".$num, $uri);
-    }
-    else {
+    } else {
         $uri .= '?' . $type . '=' . $num;
     }
     return $uri;
 }
 
-function getDelivery() {
+function getDelivery()
+{
     $link = connectionDB();
     $query ="SELECT * FROM delivery";
 
@@ -210,7 +209,8 @@ function getDelivery() {
     return mysqli_fetch_all( $result, MYSQLI_ASSOC );
 }
 
-function getPayment() {
+function getPayment()
+{
     $link = connectionDB();
     $query ="SELECT * FROM payment";
 
@@ -218,7 +218,8 @@ function getPayment() {
     return mysqli_fetch_all( $result, MYSQLI_ASSOC );
 }
 
-function getOrders() {
+function getOrders()
+{
     $link = connectionDB();
     $query ="SELECT orders.id, 
                     orders.price, 

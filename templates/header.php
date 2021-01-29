@@ -5,7 +5,7 @@
     $menu = getMenu();
     $uri = $_SERVER['REQUEST_URI'];
 
-    if( isset( $_GET["action"]) &&  $_GET["action"] == 'out') {
+    if ( isset( $_GET["action"]) &&  $_GET["action"] == 'out') {
         logout();
     }
 ?>

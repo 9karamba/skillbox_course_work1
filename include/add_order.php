@@ -7,15 +7,12 @@ if ( empty( $_POST["surname"] ) || empty( $_POST["name"] ) ||
     empty( $_POST["tel"] ) || empty( $_POST["email"] ) ||
     empty( $_POST["delivery"] ) || empty( $_POST["pay"] )) {
     $error = "Данные со звездочкой, доставка и оплата обязательны для заполнения.";
-}
-elseif ($_POST["delivery"] != 'no' &&
+} elseif ($_POST["delivery"] != 'no' &&
     ( empty( $_POST["home"] ) || empty( $_POST["street"] ) || empty( $_POST["city"] ) || empty( $_POST["aprt"] ) )) {
     $error = "Данные доставки обязательны для заполнения.";
-}
-elseif (empty( $_POST["product"] )) {
+} elseif (empty( $_POST["product"] )) {
     $error = "Товар не выбран.";
-}
-else {
+} else {
     $user_id = null;
     $name = join(' ', [
         htmlspecialchars($_POST["surname"]),
@@ -44,14 +41,12 @@ else {
         $user_id = $user_id[0];
         $query = "UPDATE users SET name='{$name}', phone='{$phone}', address='{$address}' WHERE id ={$user_id}";
         $result = getResultDB($link, $query);
-    }
-    else{
+    } else {
         $query ="INSERT INTO users (email, name, phone, address) VALUES ('{$email}', '{$name}', '{$phone}', '{$address}');";
         $result = getResultDB($link, $query);
         if($result) {
             $user_id = mysqli_insert_id($link);
-        }
-        else{
+        } else{
             $error = "Ошибка пользовательских данных.";
         }
     }
@@ -72,8 +67,7 @@ else {
                 $price -= $item[0];
             }
         }
-    }
-    else {
+    } else {
         $error = "Продукт не найден в базе.";
     }
 
