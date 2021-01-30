@@ -38,9 +38,15 @@ if (isset($_POST["add-product"])) {
                 $finfo = finfo_open(FILEINFO_MIME_TYPE);
                 $path = $uploaddir . basename($file['name']);
 
-                if (!move_uploaded_file( $file['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $path))
-                {
+                $allowed =  ['jpeg','png' ,'jpg'];
+                $mimeType = ['image/png', 'image/jpeg'];
+                $ext = pathinfo($name, PATHINFO_EXTENSION);
+                $mime = (string) finfo_file($finfo, $file['tmp_name']);
+
+                if (!move_uploaded_file( $file['tmp_name'], $_SERVER['DOCUMENT_ROOT'] . $path)) {
                     $error = 'Ошибка загрузки фото.';
+                } elseif (!in_array($mime, $mimeType) || !in_array(strtolower($ext),$allowed)) {
+                    $error = 'Неправильный формат фото.';
                 }
                 finfo_close($finfo);
             }
