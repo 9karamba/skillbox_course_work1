@@ -8,42 +8,16 @@ session_start();
 function login()
 {
     if (isset($_SESSION['id'])) {
-        if (isset($_COOKIE['email']) && isset($_COOKIE['password'])) {
-            return true;
-        } else {
-            $link = connectionDB();
-            $id = intval($_SESSION['id']);
-            $query ="SELECT * FROM users WHERE id='{$id}'";
+        $link = connectionDB();
+        $id = intval($_SESSION['id']);
+        $query = "SELECT * FROM users WHERE id='{$id}'";
 
-            $result = getResultDB($link, $query);
-            $user = mysqli_fetch_row( $result );
-
-            setcookie('email', $user[1], time() + 3600 * 24 * 30, '/');
-            setcookie('password', $user[2], time() + 3600 * 24 * 30, '/');
-
+        $result = getResultDB($link, $query);
+        if ($result) {
             return true;
         }
-    } else {
-        if (isset($_COOKIE['email']) && isset($_COOKIE['password'])) {
-            $link = connectionDB();
-            $email = $link->real_escape_string(strip_tags($_COOKIE['email']));
-            $query ="SELECT * FROM users WHERE email LIKE '{$email}'";
 
-            $result = getResultDB($link, $query);
-            $user = mysqli_fetch_row( $result );
-
-            if ($_COOKIE['password'] == $user[2]) {
-                $_SESSION['id'] = $user[0];
-                return true;
-            } else {
-                setcookie('email', '', time() + 3600 * 24 * 30, '/');
-                setcookie('password', '', time() + 3600 * 24 * 30, '/');
-                return false;
-            }
-        }
-        else {
-            return false;
-        }
+        return false;
     }
 }
 
@@ -54,9 +28,6 @@ function logout()
     }
 
     unset($_SESSION['id']);
-    setcookie('email', '', time() + 3600 * 24 * 30, '/');
-    setcookie('password', '', time() + 3600 * 24 * 30, '/');
-
     header("Location: /");
 }
 

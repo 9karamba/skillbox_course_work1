@@ -11,7 +11,8 @@ if (login()) {
     } else {
         $link = connectionDB();
 
-        $email = $link->real_escape_string($_POST['email']);
+        $email = $link->real_escape_string(strip_tags($_POST['email']));
+        $user_password = $link->real_escape_string(strip_tags($_POST['password']));
         $query ="SELECT * FROM users WHERE email LIKE '$email'";
         $result = getResultDB($link, $query);
 
@@ -22,14 +23,11 @@ if (login()) {
         mysqli_free_result($result);
         mysqli_close($link);
 
-        if ($password != null && password_verify($_POST['password'], $password)) {
+        if ($password != null && password_verify($user_password, $password)) {
             $_SESSION['id'] = $id;
-            setcookie('email', $_POST['email'], time() + 3600 * 24 * 30, '/');
-            setcookie('password', $password, time() + 3600 * 24 * 30, '/');
-
             header("Location: /admin/orders");
             exit;
-        } else{
+        } else {
             $error = "Неправильная почта или пароль.";
         }
     }

@@ -1,8 +1,7 @@
 <?php
 
 include_once $_SERVER['DOCUMENT_ROOT'].'/include/global_func.php';
-
-if(getRole() != 'admin'){
+if (getRole() != 'admin') {
     header("Location: /");
 }
 
