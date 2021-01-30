@@ -15,14 +15,12 @@ $array_url = preg_split ('/(\/|\..*$)/', $result,-1, PREG_SPLIT_NO_EMPTY);
 
 if (!$array_url) {
     $url = '/templates/index.php';
-}
-else {
+} else {
 	switch ($array_url[0]):
 		case 'admin':
 		    if( isset($array_url[1]) ) {
                 $url = '/templates/admin/' . $array_url[1] . '.php';
-            }
-		    else {
+            } else {
                 $url = '/templates/admin/login.php';
             }
 			break;
@@ -32,8 +30,7 @@ else {
 		default:
             if (preg_match ('/(\?)/', $array_url[0])) {
                 $url = '/templates/index.php';
-            }
-            else{
+            } else{
                 $url = '/templates/' . $array_url[0] . '.php';
             }
 

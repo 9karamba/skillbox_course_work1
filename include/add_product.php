@@ -11,13 +11,14 @@ if (!is_dir($_SERVER['DOCUMENT_ROOT'] . $uploaddir)) {
     mkdir($_SERVER['DOCUMENT_ROOT'] . $uploaddir, 0777);
 }
 
-if (isset( $_POST["add-product"] )) {
-    if ( empty( $_POST["product-name"] ) || empty( $_POST["product-price"] ) ) {
+if (isset($_POST["add-product"])) {
+    if ( empty($_POST["product-name"]) || empty($_POST["product-price"]) ) {
         $error = "Данные о товаре обязательны для заполнения.";
     } else{
-        $id = isset($_POST["product-id"]) ? intval( htmlspecialchars($_POST["product-id"]) ) : false;
-        $name = htmlspecialchars($_POST["product-name"]);
-        $price = intval( htmlspecialchars($_POST["product-price"]) );
+        $link = connectionDB();
+        $id = isset($_POST["product-id"]) ? intval( $_POST["product-id"] ) : false;
+        $name = $link->real_escape_string(strip_tags($_POST["product-name"]));
+        $price = intval( $_POST["product-price"] );
         $new = intval( isset($_POST["new"]) );
         $sale = intval( isset($_POST["sale"]) );
         $file = $_FILES["product-photo"];
@@ -26,12 +27,13 @@ if (isset( $_POST["add-product"] )) {
             $error = "Название товара слишком длинное.";
         } elseif ($price <= 0) {
             $error = "Цена должна быть числом и должна быть больше 0.";
-        } elseif (empty( $_FILES["product-photo"]["name"] ) && !is_numeric($id) ||
-            is_numeric($id) && empty( $_POST["product-image"] ) && empty( $_FILES["product-photo"]["name"] )){
+        } elseif (empty($_FILES["product-photo"]["name"]) && !is_numeric($id) ||
+            is_numeric($id) && empty($_POST["product-image"]) && empty($_FILES["product-photo"]["name"])){
             $error = "Фотография не должна быть пустой.";
         } elseif (is_numeric($id)) {
-            if (empty( $_FILES["product-photo"]["name"] )){
-                $path = $uploaddir . basename(htmlspecialchars($_POST["product-image"]));
+            if (empty($_FILES["product-photo"]["name"])){
+                $image = $link->real_escape_string(strip_tags($_POST["product-image"]));
+                $path = $uploaddir . basename($image);
             } else {
                 $finfo = finfo_open(FILEINFO_MIME_TYPE);
                 $path = $uploaddir . basename($file['name']);
@@ -42,7 +44,7 @@ if (isset( $_POST["add-product"] )) {
                 }
                 finfo_close($finfo);
             }
-            $link = connectionDB();
+
             $query = "UPDATE products SET name='{$name}', price='{$price}', new='{$new}', sale='{$sale}', photo='{$path}' WHERE id='{$id}'";
             $result = getResultDB($link, $query);
             if ($result) {
@@ -99,7 +101,7 @@ if (isset( $_POST["add-product"] )) {
 }
 
 if (isset( $_GET["product-id"] )) {
-    $id = intval( htmlspecialchars($_GET["product-id"]) );
+    $id = intval( $_GET["product-id"] );
 
     $link = connectionDB();
     $query ="SELECT * FROM products

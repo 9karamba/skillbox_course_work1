@@ -7,7 +7,7 @@ if (getRole() != 'admin') {
 }
 
 if (isset($_POST['id'])) {
-    $id = intval( htmlspecialchars($_POST["id"]) );
+    $id = intval( $_POST["id"] );
 
     $link = connectionDB();
     $query ="DELETE FROM products WHERE id = '$id'";

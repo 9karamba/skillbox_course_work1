@@ -10,8 +10,8 @@ if (getRole() == 'user') {
 if (!isset($_POST['status'])) {
     $error = "Статус не может быть обработан.";
 } else {
-    $id = intval( htmlspecialchars($_POST["id"]) );
-    $status = intval( htmlspecialchars($_POST["status"]) );
+    $id = intval( $_POST["id"] );
+    $status = intval( $_POST["status"] );
     $link = connectionDB();
     $query ="UPDATE orders SET status='{$status}' WHERE id={$id}";
     $result = getResultDB($link, $query);

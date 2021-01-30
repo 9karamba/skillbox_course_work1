@@ -12,7 +12,8 @@ function login()
             return true;
         } else {
             $link = connectionDB();
-            $query ="SELECT * FROM users WHERE id LIKE '{$_SESSION['id']}'";
+            $id = intval($_SESSION['id']);
+            $query ="SELECT * FROM users WHERE id='{$id}'";
 
             $result = getResultDB($link, $query);
             $user = mysqli_fetch_row( $result );
@@ -25,7 +26,8 @@ function login()
     } else {
         if (isset($_COOKIE['email']) && isset($_COOKIE['password'])) {
             $link = connectionDB();
-            $query ="SELECT * FROM users WHERE email LIKE '{$_COOKIE['email']}'";
+            $email = $link->real_escape_string(strip_tags($_COOKIE['email']));
+            $query ="SELECT * FROM users WHERE email LIKE '{$email}'";
 
             $result = getResultDB($link, $query);
             $user = mysqli_fetch_row( $result );
@@ -61,9 +63,9 @@ function logout()
 function getRole()
 {
     if (login()) {
-        $user_id = $_SESSION['id'];
+        $user_id = intval($_SESSION['id']);
         $link = connectionDB();
-        $query ="SELECT role_id FROM user_roles WHERE user_id LIKE '{$user_id}'";
+        $query ="SELECT role_id FROM user_roles WHERE user_id='{$user_id}'";
 
         $result = getResultDB($link, $query);
         $roles = mysqli_fetch_all( $result );
@@ -72,7 +74,7 @@ function getRole()
             $name = 'user';
 
             foreach ($roles as $role) {
-                $query ="SELECT name FROM roles WHERE id LIKE '{$role[0]}'";
+                $query ="SELECT name FROM roles WHERE id='{$role[0]}'";
                 $result = getResultDB($link, $query);
 
                 $name = mysqli_fetch_row( $result )[0];
@@ -104,13 +106,13 @@ function getProducts()
     $args = [];
     $num = 6;
     $page     = $_GET['page'] ?? 1;
-    $category = $_GET['category'] ?? '';
+    $category = isset($_GET['category']) ? $link->real_escape_string(strip_tags($_GET['category'])) : '';
     $new      = $_GET['new'] ?? '';
     $sale     = $_GET['sale'] ?? '';
-    $minPrice = $_GET['min-price'] ?? '';
-    $maxPrice = $_GET['max-price'] ?? '';
-    $sort = $_GET['sort'] ?? '';
-    $order = $_GET['order'] ?? 'asc';
+    $minPrice = isset($_GET['min-price']) ? intval($_GET['min-price']) : '';
+    $maxPrice = isset($_GET['max-price']) ? intval($_GET['max-price']) : '';
+    $sort     = isset($_GET['sort']) ? $link->real_escape_string(strip_tags($_GET['sort'])) : '';
+    $order    = isset($_GET['order']) ? $link->real_escape_string(strip_tags($_GET['order'])) : 'asc';
 
     if (!empty($new)) {
         $args[] = "products.new = 1";
@@ -165,9 +167,10 @@ function getProducts()
 function getProductsCategories($id)
 {
     $link = connectionDB();
+    $id = intval($id);
     $query ="SELECT categories.name FROM categories
         LEFT JOIN product_categories ON categories.id = product_categories.category_id
-        WHERE product_categories.product_id LIKE '$id'";
+        WHERE product_categories.product_id='$id'";
 
     $result = getResultDB($link, $query);
     if ($result) {

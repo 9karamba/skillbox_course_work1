@@ -3,36 +3,36 @@ include_once $_SERVER['DOCUMENT_ROOT'].'/include/global_func.php';
 
 $error = '';
 
-if ( empty( $_POST["surname"] ) || empty( $_POST["name"] ) ||
-    empty( $_POST["tel"] ) || empty( $_POST["email"] ) ||
-    empty( $_POST["delivery"] ) || empty( $_POST["pay"] )) {
+if ( empty($_POST["surname"]) || empty($_POST["name"]) ||
+    empty($_POST["tel"]) || empty($_POST["email"]) ||
+    empty($_POST["delivery"]) || empty($_POST["pay"])) {
     $error = "Данные со звездочкой, доставка и оплата обязательны для заполнения.";
 } elseif ($_POST["delivery"] != 'no' &&
-    ( empty( $_POST["home"] ) || empty( $_POST["street"] ) || empty( $_POST["city"] ) || empty( $_POST["aprt"] ) )) {
+    ( empty($_POST["home"]) || empty($_POST["street"]) || empty($_POST["city"]) || empty($_POST["aprt"]) )) {
     $error = "Данные доставки обязательны для заполнения.";
-} elseif (empty( $_POST["product"] )) {
+} elseif (empty($_POST["product"])) {
     $error = "Товар не выбран.";
 } else {
+    $link = connectionDB();
     $user_id = null;
     $name = join(' ', [
-        htmlspecialchars($_POST["surname"]),
-        htmlspecialchars($_POST["name"]),
-        htmlspecialchars($_POST["thirdName"])
+        $link->real_escape_string(strip_tags($_POST["surname"])),
+        $link->real_escape_string(strip_tags($_POST["name"])),
+        $link->real_escape_string(strip_tags($_POST["thirdName"]))
     ]);
-    $email = htmlspecialchars($_POST["email"]);
-    $phone = htmlspecialchars($_POST["tel"]);
+    $email = $link->real_escape_string(strip_tags($_POST["email"]));
+    $phone = $link->real_escape_string(strip_tags($_POST["tel"]));
     $address = $_POST["delivery"] != 'no' ? join(',', [
-        htmlspecialchars($_POST["city"]),
-        htmlspecialchars($_POST["street"]),
-        htmlspecialchars($_POST["home"]),
-        htmlspecialchars($_POST["aprt"])
+        $link->real_escape_string(strip_tags($_POST["city"])),
+        $link->real_escape_string(strip_tags($_POST["street"])),
+        $link->real_escape_string(strip_tags($_POST["home"])),
+        $link->real_escape_string(strip_tags($_POST["aprt"]))
     ]) : '';
-    $delivery_id = $_POST["delivery"] != 'no' ? "'" . htmlspecialchars($_POST["delivery"]) . "'" : 'NULL';
-    $payment_id = intval( htmlspecialchars($_POST["pay"]) );
-    $product_id = intval( htmlspecialchars($_POST["product"]) );
-    $comment = htmlspecialchars($_POST["comment"]);
+    $delivery_id = $_POST["delivery"] != 'no' ? "'" . intval($_POST["delivery"]) . "'" : 'NULL';
+    $payment_id = intval( $_POST["pay"] );
+    $product_id = intval( $_POST["product"] );
+    $comment = $link->real_escape_string(strip_tags($_POST["comment"]));
 
-    $link = connectionDB();
     $query ="SELECT id FROM users WHERE email LIKE '{$email}'";
     $result = getResultDB($link, $query);
 
